@@ -1,7 +1,7 @@
 #include <string>
 
 /*
- * lumos-compiler
+ * lumos-llvm
  * Author: bonsall2004
  * Description: 
  */
