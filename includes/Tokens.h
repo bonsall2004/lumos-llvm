@@ -8,10 +8,10 @@
 
 enum class LCTokens
 {
-  TOK_EOF = -1,  // End of file token
+  TOK_EOF = -1,
 
   // Keywords
-  TOK_INT = -2, TOK_FLOAT = -3, TOK_BOOL = -4, TOK_CHAR = -5, TOK_IF = -6, TOK_ELSE = -7, TOK_FOR = -8, TOK_WHILE = -9, TOK_RETURN = -10,
+  TOK_INT = -2, TOK_FLOAT = -3, TOK_BOOL = -4, TOK_CHAR = -5, TOK_IF = -6, TOK_ELSE = -7, TOK_FOR = -8, TOK_WHILE = -9, TOK_RETURN = -10, TOK_STRING = -52,
 
   // Identifiers
   TOK_IDENTIFIER = -11,
@@ -24,10 +24,9 @@ enum class LCTokens
 
   // Punctuation
   TOK_SEMICOLON = -35, TOK_COMMA = -36, TOK_COLON = -37, TOK_PERIOD = -38, TOK_OPEN_PAREN = -39, TOK_CLOSE_PAREN = -40, TOK_OPEN_BRACE = -41, TOK_CLOSE_BRACE = -42, TOK_OPEN_BRACKET = -43, TOK_CLOSE_BRACKET = -44, // Comments
-  TOK_SINGLE_LINE_COMMENT = -45, TOK_MULTI_LINE_COMMENT = -46,
 
   // Preprocessor Directives
-  TOK_INCLUDE = -47, TOK_DEFINE = -48, TOK_IFDEF = -49, TOK_IFNDEF = -50, TOK_ENDIF = -51, TOK_STRING = -52,
+  TOK_INCLUDE = -47, TOK_DEFINE = -48, TOK_IFDEF = -49, TOK_IFNDEF = -50, TOK_ENDIF = -51,
 };
 
 typedef struct TOKEN_

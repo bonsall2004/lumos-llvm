@@ -22,5 +22,6 @@ int main(int argc, char** argv)
   }
   auto* lexer1 = new Lexer(reinterpret_cast<std::string&>(argv[1]));
   std::vector<Token> lexed_tokens = lexer1->tokenize();
+  std::cout << "break";
   TaskScheduler::safe_exit(EXIT_SUCCESS);
 }

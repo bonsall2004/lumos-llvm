@@ -81,16 +81,197 @@ std::vector<Token> Lexer::tokenize()
         break;
       }
     }
-    else if(peek() == '\n')
+    else if(isdigit(peek()))
     {
-      line_num++;
-      consume();
+      LCTokens token = LCTokens::TOK_INT_LITERAL;
+      while(isdigit(peek()))
+      {
+        buff += consume();
+        if(peek() == '.')
+        {
+          buff += consume();
+          token = LCTokens::TOK_FLOAT_LITERAL;
+        }
+      }
+
+      tokens.push_back({ token, buff, line_num });
+      buff.clear();
+
     }
     else if(isspace(peek()))
     {
       consume();
     }
+    else
+    {
+      switch(peek())
+      {
+      case '+':
+        tokens.push_back({ LCTokens::TOK_PLUS, "+", line_num });
+        consume();
+        break;
+      case '-':
+        tokens.push_back({ LCTokens::TOK_MINUS, "-", line_num });
+        consume();
+        break;
+      case '*':
+        tokens.push_back({ LCTokens::TOK_MULTIPLY, "*", line_num });
+        consume();
+        break;
+      case ';':
+        tokens.push_back({ LCTokens::TOK_SEMICOLON, ";", line_num });
+        consume();
+        break;
+      case '(':
+        tokens.push_back({ LCTokens::TOK_OPEN_PAREN, "(", line_num });
+        consume();
+        break;
+      case ')':
+        tokens.push_back({ LCTokens::TOK_CLOSE_PAREN, ")", line_num });
+        consume();
+        break;
+      case '{':
+        tokens.push_back({ LCTokens::TOK_OPEN_BRACE, "{", line_num });
+        consume();
+        break;
+      case '}':
+        tokens.push_back({ LCTokens::TOK_CLOSE_BRACE, "}", line_num });
+        consume();
+        break;
+      case '=':
+        if(peek(1) == '=')
+        {
+          tokens.push_back({ LCTokens::TOK_EQUALS, "==", line_num });
+          consume();
+          consume();
+        }
+        else
+        {
+          tokens.push_back({ LCTokens::TOK_ASSIGN, "=", line_num });
+          consume();
+        }
+        break;
+      case '<':
+        if(peek(1) == '=')
+        {
+          tokens.push_back({ LCTokens::TOK_LESS_THAN_OR_EQUAL, "<=", line_num });
+          consume();
+          consume();
+        }
+        else
+        {
+          tokens.push_back({ LCTokens::TOK_LESS_THAN, "<", line_num });
+          consume();
+        }
+        break;
+      case '>':
+        if(peek(1) == '=')
+        {
+          tokens.push_back({ LCTokens::TOK_GREATER_THAN_OR_EQUAL, ">=", line_num });
+          consume();
+          consume();
+        }
+        else
+        {
+          tokens.push_back({ LCTokens::TOK_GREATER_THAN, ">", line_num });
+          consume();
+        }
+        break;
+      case '!':
+        if(peek(1) == '=')
+        {
+          tokens.push_back({ LCTokens::TOK_NOT_EQUALS, "!=", line_num });
+          consume();
+          consume();
+        }
+        else
+        {
+          tokens.push_back({ LCTokens::TOK_LOGICAL_NOT, "!", line_num });
+          consume();
+        }
+        break;
+      case '&':
+        if(peek(1) == '&')
+        {
+          tokens.push_back({ LCTokens::TOK_LOGICAL_AND, "&&", line_num });
+          consume();
+          consume();
+        }
+        break;
+      case '|':
+        if(peek(1) == '|')
+        {
+          tokens.push_back({ LCTokens::TOK_LOGICAL_OR, "||", line_num });
+          consume();
+          consume();
+        }
+        break;
+      case '/':
+        if(peek(1) == '/')
+        {
+          while(peek() != '\n')
+          {
+            consume();
+          }
+        }
+        else
+        {
+          tokens.push_back({ LCTokens::TOK_DIVIDE, "/", line_num });
+          consume();
+        }
+        break;
+      case '"':
+        consume();
+        while(peek() != '"')
+        {
+          buff += consume();
+        }
+        consume();
+        tokens.push_back({ LCTokens::TOK_STRING_LITERAL, buff, line_num });
+        buff.clear();
+        break;
+      case '\'':
+        consume();
+        buff += consume();
+        consume();
+        tokens.push_back({ LCTokens::TOK_CHAR_LITERAL, buff, line_num });
+        buff.clear();
+        break;
+      case '%':
+        tokens.push_back({ LCTokens::TOK_MODULO, "%", line_num });
+        consume();
+        break;
+      case '[':
+        tokens.push_back({ LCTokens::TOK_OPEN_BRACKET, "[", line_num });
+        consume();
+        break;
+      case ']':
+        tokens.push_back({ LCTokens::TOK_CLOSE_BRACKET, "]", line_num });
+        consume();
+        break;
+      case ',':
+        tokens.push_back({ LCTokens::TOK_COMMA, ",", line_num });
+        consume();
+        break;
+      case ':':
+        tokens.push_back({ LCTokens::TOK_COLON, ":", line_num });
+        consume();
+        break;
+      case '.':
+        tokens.push_back({ LCTokens::TOK_PERIOD, ".", line_num });
+        consume();
+        break;
+      case '\n':
+        line_num++;
+        consume();
+        break;
+      default:
+        consume();
+        break;
+      }
+    }
 
   }
+  tokens.push_back({ LCTokens::TOK_EOF, "EOF", line_num });
   return tokens;
 }
