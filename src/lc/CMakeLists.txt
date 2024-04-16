@@ -18,7 +18,7 @@ set(BUILD_ARCH "-m64")
 set(TARGET_64 ON)
 
 find_package(LLVM REQUIRED CONFIG)
-include_directories(${LLVM_INCLUDE_DIRS} ../../deps/thread-master ../../hxc_debug/console/includes)
+include_directories(${LLVM_INCLUDE_DIRS} ../../deps/thread-master ../../hxc_debug/console/includes ../../hxc_debug/timer/includes)
 add_definitions(${LLVM_DEFINITIONS})
 
 add_executable(lc ${SOURCES})

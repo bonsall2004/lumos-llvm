@@ -27,6 +27,10 @@ std::vector<Token> Lexer::tokenize()
 
       switch(str2int(buff.c_str()))
       {
+      case str2int("mutable"):
+        tokens.push_back({ LCTokens::TOK_MUTABLE, buff, line_num });
+        buff.clear();
+        break;
       case str2int("int"):
         tokens.push_back({ LCTokens::TOK_INT, buff, line_num });
         buff.clear();
